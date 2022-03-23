@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{%d{HH:mm:ss} %-5p %-24c{5} - %m%n%throwable}{FATAL=white, ERROR=red, WARN=yellow, INFO=grey, DEBUG=green, TRACE=Cyan}"/>
+        </Console>
+
+        <Async name="AsyncConsole">
+            <AppenderRef ref="Console"/>
+        </Async>
+
+        <Async name="AsyncRollingFile">
+            <AppenderRef ref="RollingFile"/>
+        </Async>
+
+
+        <!--        name 	                String 	            The name of the Appender.-->
+        <!--        filter 	                Filter 	            A Filter to determine if the event should be handled by this Appender. More than one Filter may be used by using a CompositeFilter.-->
+        <!--        layout 	                Layout 	            The Layout to use to format the LogEvent.-->
+        <!--        Ssl 	                SslConfiguration 	Contains the configuration for the KeyStore and TrustStore for https. Optional, uses Java runtime defaults if not specified. See SSL-->
+        <!--        verifyHostname 	        boolean 	        Whether to verify server hostname against certificate. Only valid for https. Optional, defaults to true-->
+        <!--        url 	                string 	            The URL to use. The URL scheme must be "http" or "https".-->
+        <!--        method 	                string 	            The HTTP method to use. Optional, default is "POST".-->
+        <!--        connectTimeoutMillis    integer 	        The connect timeout in milliseconds. Optional, default is 0 (infinite timeout).-->
+        <!--        readTimeoutMillis 	    integer 	        The socket read timeout in milliseconds. Optional, default is 0 (infinite timeout).-->
+        <!--        headers 	            Property[] 	        Additional HTTP headers to use. The values support lookups.-->
+        <!--        ignoreExceptions 	    boolean 	        The default is true, causing exceptions encountered while appending events to be internally logged and then ignored. When set to false exceptions will be propagated to the caller, instead. You must set this to false when wrapping this Appender in a FailoverAppender.-->
+
+        <!--        <Http name="Http" url="https://localhost:9200/test/log4j/">-->
+        <!--            <Property name="X-Java-Runtime" value="$${java:runtime}"/>-->
+        <!--            <JsonLayout properties="true"/>-->
+        <!--            <SSL>-->
+        <!--                <KeyStore location="log4j2-keystore.jks" passwordEnvironmentVariable="KEYSTORE_PASSWORD"/>-->
+        <!--                <TrustStore location="truststore.jks" passwordFile="${sys:user.home}/truststore.pwd"/>-->
+        <!--            </SSL>-->
+        <!--        </Http>-->
+
+        <RollingFile name="RollingFile"
+                     fileName="logs/log-${date:yyyy-MM}.json"
+                     filePattern="logs/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <JSONLayout complete="true" compact="true"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="2 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="AsyncConsole"/>
+            <AppenderRef ref="AsyncRollingFile"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
