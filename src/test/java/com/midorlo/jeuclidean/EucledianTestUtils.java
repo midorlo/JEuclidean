@@ -1,5 +1,7 @@
 package com.midorlo.jeuclidean;
 
+import javax.swing.*;
+import java.awt.*;
 import java.security.SecureRandom;
 
 public class EucledianTestUtils {
@@ -26,4 +28,18 @@ public class EucledianTestUtils {
         }
         return l;
     }
+
+
+    public static void main(String[] args) {
+SwingUtilities.invokeLater(() -> {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(1024, 768);
+        frame.setLocationRelativeTo(null);
+
+frame.setContentPane(new JPanel(new GridLayout(0, 10)));
+        createExampleData(3, 3, 2).stream().map(EuclideanObjectUi::new).forEach(u -> frame.getContentPane().add(u));
+        frame.setVisible(true);
+    System.out.print("x");
+    });}
 }

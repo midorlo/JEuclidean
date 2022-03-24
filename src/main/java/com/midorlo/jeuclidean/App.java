@@ -2,6 +2,8 @@ package com.midorlo.jeuclidean;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.swing.*;
+
 @Slf4j
 public class App {
 
@@ -11,5 +13,8 @@ public class App {
         log.warn("Hello world!");
         log.error("Hello world!");
         log.debug("Hello world!");
+
+
+
     }
 }
